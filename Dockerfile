@@ -2,12 +2,15 @@ FROM node:20
 
 WORKDIR /app
 
-COPY . .
+COPY package* .
+COPY ./prisma .
 # we are currently copying even node_module so add node_module to .dockerignore
 
 RUN npm install
-RUN npm run build
 RUN npx prisma generate
+
+COPY . .
+RUN npm run build
 # they don't start the application 
 EXPOSE 3000
 # Runs when we are creating a image
